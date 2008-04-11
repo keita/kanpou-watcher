@@ -1,4 +1,4 @@
-require 'config/requirements'
-require 'config/hoe' # setup Hoe + all gem configuration
+require "rubygems"
+require "rtask"
 
-Dir['tasks/**/*.rake'].each { |rake| load rake }
+RTask.new
