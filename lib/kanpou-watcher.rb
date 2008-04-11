@@ -4,6 +4,16 @@ require "kconv"
 require "date"
 
 module KanpouWatcher
+  module Version #:nodoc:
+    MAJOR = 0
+    MINOR = 2
+    TINY  = 0
+
+    STRING = [MAJOR, MINOR, TINY].join('.')
+  end
+
+  VERSION = Version::String
+
   class Kanpou
     attr_reader :label, :uri, :date
 
