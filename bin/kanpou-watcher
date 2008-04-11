@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+$KCODE = "UTF8"
+
+require "optparse"
+require "fileutils"
+
+begin
+  require "curb"
+  require "kanpou-watcher"
+rescue LoadError
+  require "rubygems"
+  require "curb"
+  require "kanpou-watcher"
+end
+
+require 'shared-mime-info'
+
+$dir = File.join(ENV["HOME"], ".kanpou-watcher")
+
+OptionParser.new do |opt|
+  opt.on("-d", "--directory [DIR]") do |dir|
+    $dir = dir
+  end
+
+  opt.on("-q", "--quiet") do
+    $q = true
+  end
+
+  opt.parse!
+end
+
+Dir.mkdir $dir unless File.exist? $dir
+
+KanpouWatcher.week.each do |kanpou|
+  kanpou.pdf.each do |url|
+    puts "PDF: " + url.to_s unless $q
+    dir = File.join($dir, kanpou.date.to_s, kanpou.label)
+    FileUtils.mkdir_p dir unless File.exist?(dir)
+    path = File.join(dir, url.path.split("/")[-1])
+    if not (File.exist?(path) and MIME.check_magics(path).type == "application/pdf")
+      puts "  download:" + url.to_s
+      puts "  path: " + path
+      Curl::Easy.download(url.to_s, path)
+    end
+  end
+end
