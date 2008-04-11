@@ -1,0 +1,11 @@
+--- 
+:summary: KanpouWatcher provides a tool and library to download Kanpou(Japanese official gazette) PDF files.
+:email: keita.yamaguchi@gmail.com
+:has_rdoc: true
+:name: kanpou-watcher
+:homepage: http://rubyforge.org/projects/kanpou-watcher/
+:version: 0.2.0
+:dependencies: 
+- hpricot
+:rubyforge_project: kanpou-watcher
+:author: Keita Yamaguchi
